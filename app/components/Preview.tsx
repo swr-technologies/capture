@@ -2,28 +2,39 @@
 
 import React, { useState } from "react";
 
-import { Button, TextField } from "@/app/components";
+import { Navbar, ProductList } from "@/app/components";
 import { CreateProduct } from "./CreateProduct";
+import { useProduct } from "@/app/hooks/useProduct";
+import { Product } from "../types";
 
 export const Preview = () => {
-  const [productName, setProductName] = useState("");
   const [showCreate, setShowCreate] = useState(false);
+  const [editingProduct, setEditingProduct] = useState<Product | undefined>();
+  const { deleteProduct, products } = useProduct();
+
+  const handleOpenCreateNew = () => {
+    setEditingProduct(undefined);
+    setShowCreate(true);
+  };
 
   const handleClose = () => {
-    setShowCreate((prev) => !prev);
+    setShowCreate(false);
+    setEditingProduct(undefined);
   };
+
   return (
-    <div>
-      <div className="py-9 w-full flex flex-col gap-5 items-center justify-center">
-        <TextField
-          placeholder="Product name"
-          value={productName}
-          hasValue={!productName}
-          onChange={(e) => setProductName(e.target.value)}
+    <div className="mx-auto container h-screen pt-10">
+      <Navbar/>
+      <div className="pt-16 h-full w-full mx-14">
+        <ProductList
+          products={products}
+          onCreate={handleOpenCreateNew}
+          onDelete={(id) => deleteProduct(id)}
+          onEdit={(product) => {
+            setEditingProduct(product);
+            setShowCreate(true);
+          }}
         />
-        <div className="w-fit">
-          <Button label="Create" variant="default" onClick={handleClose} />
-        </div>
       </div>
       {showCreate && (
         <div className="fixed top-0 float-right right-0 h-screen w-full z-40 lg:max-w-[716px]">
@@ -32,9 +43,10 @@ export const Preview = () => {
             onClick={handleClose}
             role="presentation"
           />
-          <div className="w-full h-full">
-            <CreateProduct onClose={handleClose} />
-          </div>
+          <CreateProduct
+            editingProduct={editingProduct as Product}
+            onClose={handleClose}
+          />
         </div>
       )}
     </div>
