@@ -11,6 +11,9 @@ const config: Config = {
       colors: {
         primary: "#3D3D3D",
         secondary: "#E01A22",
+        disable: "#B8C1CE",
+        "text-disabled": "#798496",
+        "button-hover": "#B60D14"
       },
     },
   },
