@@ -16,7 +16,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
     ref
   ) {
     return (
-      <div className="flex flex-col relative">
+      <div className="flex flex-col relative w-full">
         <input
           ref={ref}
           {...inputParams}
