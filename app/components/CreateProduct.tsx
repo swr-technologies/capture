@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import { FieldName, Product } from "@/app/types";
 import ArrowLeft from "@/public/icons/arrowLeft.svg";
@@ -59,7 +59,7 @@ export const CreateProduct = ({
         <button onClick={onClose}>
           <Image src={ArrowLeft} alt="Go back" />
         </button>
-        <h1 className="font-bold text-5xl">
+        <h1 className="header">
           {isEdit ? "Edit" : "Create New"} Product
         </h1>
       </div>

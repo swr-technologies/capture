@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 
-import { Navbar, ProductList } from "@/app/components";
+import { Navbar, ProductList, Scanner } from "@/app/components";
 import { CreateProduct } from "./CreateProduct";
 import { useProduct } from "@/app/hooks/useProduct";
 import { Product } from "../types";
@@ -23,18 +23,9 @@ export const Preview = () => {
   };
 
   return (
-    <div className="mx-auto container h-screen pt-10">
-      <Navbar/>
-      <div className="pt-16 h-full w-full mx-14">
-        <ProductList
-          products={products}
-          onCreate={handleOpenCreateNew}
-          onDelete={(id) => deleteProduct(id)}
-          onEdit={(product) => {
-            setEditingProduct(product);
-            setShowCreate(true);
-          }}
-        />
+    <div className="mx-auto container h-screen ">
+      <div className="pt-10 h-full w-full px-10">
+       
       </div>
       {showCreate && (
         <div className="fixed top-0 float-right right-0 h-screen w-full z-40 lg:max-w-[716px]">

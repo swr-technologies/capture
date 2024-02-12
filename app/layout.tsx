@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "./utils/cn";
 import { publicSans } from "./constant/font";
+import { Navbar } from "./components";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +19,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn(publicSans, 'indeterminate h-screen bg-white')}>{children}</body>
+      <body className={cn(publicSans, "indeterminate h-screen bg-white")}>
+        <div className="mx-auto container pt-10">
+        <Navbar />
+        </div>
+        {children}
+      </body>
     </html>
   );
 }

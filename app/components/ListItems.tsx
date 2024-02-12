@@ -71,10 +71,7 @@ export const ListItems = ({
               <tr
                 key={product.id}
                 className={cn(
-                  "border-b border-gray-200 h-20 cursor-pointer relative",
-                  {
-                    "bg-[#FFE8E8]": isSelected,
-                  }
+                  "border-b border-gray-200 h-20 cursor-pointer relative hover:bg-[#FFE8E8]/50"
                 )}
                 onClick={() => selectProduct(product.id)}
               >

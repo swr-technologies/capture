@@ -1,11 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 import { navbarItem, navbarSection } from "@/app/types/navbar";
-import { Chart, ColesIcon, ScanIcon } from "@/public/icons";
+import { Chart, ColesIcon, ScannerIcon } from "@/public/icons";
 import { cn } from "@/app/utils/cn";
 
 interface NavbarItemProps {
@@ -17,52 +17,60 @@ export const NavbarItem = ({ data }: NavbarItemProps) => {
   const selectProduct = (id: number) => {
     setSelectedId(selectedId === id ? null : id);
   };
+
+  const getIconSrc = (itemName: string) => {
+    switch (itemName) {
+      case "Dashboard":
+        return Chart;
+      case "Camera Scanner":
+        return ScannerIcon;
+      default:
+        return null;
+    }
+  };
   return (
     <div className="w-72 bg-white h-full overflow-auto text-primary">
-      <div className="flex-1 flex-col ">
-        <div className=" items-center justify-center flex">
-          <Image src={ColesIcon} alt="" className="w-24 h-24" />
+      <div className="flex-1 flex-col">
+        <div className="items-center justify-center flex">
+          <Image src={ColesIcon} alt="Logo" className="w-24 h-24" />
         </div>
         <div className="flex flex-col p-4">
           {data.map((section, index) => (
             <div key={index}>
-              <p className="text-black uppercase text-base py-4 font-bold">
-                {section.title}
-              </p>
-              <ul className="space-y-2">
+              <p className="uppercase py-4 font-bold">{section.title}</p>
+              <ul
+                className={cn(
+                  "space-y-2",
+                  section.title === "Management" && "list-disc list-inside"
+                )}
+              >
                 {section.items.map((item: navbarItem) => {
                   const isSelected = item.id === selectedId;
+                  const iconSrc = getIconSrc(item.name);
                   return (
-                    <div
-                      key={item.id}
-                      onClick={() => selectProduct(item.id)}
-                      className={cn(
-                        "flex items-center p-2 my-2 text-sm rounded hover:bg-[#FFE7E7] hover:text-secondary",
-                        {
-                          " text-secondary ": isSelected,
-                          " text-black": !isSelected,
-                        }
-                      )}
-                    >
-                      {section.title === "Overview" && (
-                        <Image
-                          alt=""
-                          src={item.name === "Dashboard" ? Chart : ScanIcon}
-                          className="w-4 h-4"
-                        />
-                      )}
-                      {section.title === "Management" && (
-                        <span
-                          className={cn(
-                            "h-1.5 w-1.5 bg-black rounded-full mr-2 inline-block hover:bg-secondary",
-                            {
-                              "bg-secondary": isSelected,
-                            }
-                          )}
-                        ></span>
-                      )}
-                      <span className=" mr-2"></span> {item.name}
-                    </div>
+                    <Link key={item.id} href={item.value}>
+                      <li
+                        onClick={() => selectProduct(item.id)}
+                        className={cn(
+                          "flex items-center p-2 my-2 text-sm font-bold rounded cursor-pointer relative hover:bg-[#FFE7E7] hover:text-secondary",
+                          {
+                            "bg-[#FFE7E7] text-secondary": isSelected,
+                            "list-disc list-inside ":
+                              section.title === "Management",
+                          }
+                        )}
+                      >
+                        {iconSrc && (
+                          <Image
+                            src={iconSrc}
+                            alt={item.name}
+                            width={16}
+                            height={16}
+                          />
+                        )}
+                        <span className="ml-2">{item.name}</span>
+                      </li>
+                    </Link>
                   );
                 })}
               </ul>
