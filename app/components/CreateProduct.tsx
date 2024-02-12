@@ -5,10 +5,11 @@ import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 import { useEffect } from "react";
 
-import { FieldName, Product } from "@/app/types";
-import ArrowLeft from "@/public/icons/arrowLeft.svg";
+import { Product } from "@/app/types";
 import { Button, TextField } from "@/app/components";
 import { useProduct } from "@/app/hooks/useProduct";
+import { ArrowLeftIcon } from "@/public/icons";
+import { Form_Error_Message } from "@/app/utils/data";
 
 export const CreateProduct = ({
   onClose,
@@ -23,7 +24,7 @@ export const CreateProduct = ({
     handleSubmit,
     reset,
     watch,
-    formState: { isSubmitting },
+    formState: { isSubmitting, errors },
   } = useForm<Product>({
     shouldUseNativeValidation: true,
     defaultValues: editingProduct || {},
@@ -47,55 +48,73 @@ export const CreateProduct = ({
     }
   };
 
-  const formFields: { name: FieldName; type: string; placeholder: string }[] = [
-    { name: "name", type: "text", placeholder: "Product name" },
-    { name: "price", type: "text", placeholder: "Price" },
-    { name: "expiration", type: "date", placeholder: "Expiration" },
-  ];
-
   return (
     <div className="relative w-full h-full bg-white px-2 text-primary ">
       <div className="flex items-center pt-8 pb-10 gap-8">
-        <button onClick={onClose}>
-          <Image src={ArrowLeft} alt="Go back" />
+        <button
+          onClick={onClose}
+          className="drawer-button flex-col flex items-center p-2 font-bold text-xl rounded-full text-white hover:bg-primary/25 transition-all duration-300 ease-in-out transform hover:scale-105 active:scale-95"
+        >
+          <Image src={ArrowLeftIcon} alt="Go back" />
         </button>
-        <h1 className="header">
-          {isEdit ? "Edit" : "Create New"} Product
-        </h1>
+        <h1 className="header">{isEdit ? "Edit" : "Create New"} Product</h1>
       </div>
       <div className="px-16 w-full">
-        <h2 className="font-bold text-[28px] pb-5">Product Detail</h2>
+        <h2 className="font-bold text-[28px] pb-8">Product Detail</h2>
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col gap-8 w-full"
         >
-          {formFields.map((field) => (
+          <div className="space-y-2">
             <TextField
-              key={field.name}
-              {...register(field.name)}
-              type={field.type}
-              placeholder={field.placeholder}
-              required
-              hasValue={!watchedFields[field.name]}
-            />
-          ))}
-          <div className="flex w-full gap-4">
-            <TextField
-              {...register("measurement")}
-              type="number"
-              placeholder="Measurement"
-              required
-              hasValue={!watchedFields["measurement"]}
-            />
-            <TextField
-              {...register("measurementUnits")}
+              key="name"
+              {...register("name", { required: true, maxLength: 30 })}
               type="text"
-              placeholder="Measurement Units"
-              required
-              hasValue={!watchedFields["measurementUnits"]}
+              placeholder="Product name"
+              hasValue={!watchedFields["name"]}
+              label="Product name"
+              labelClassName="invisible peer-focus:visible"
             />
+            {errors.name && (
+              <p className="text-xs text-red-500 text-medium">
+                {Form_Error_Message.name}
+              </p>
+            )}
           </div>
-          <div className="w-fit self-center mt-28">
+          <div className="space-y-2">
+            <TextField
+              key="price"
+              {...register("price", { required: true, min: 1, maxLength: 10 })}
+              type="number"
+              placeholder="0.00"
+              label="Price"
+              labelClassName="text-primary/65 peer-focus:text-primary"
+              hasValue={!watchedFields["price"]}
+              isAmount
+            />
+
+            {errors.price && (
+              <p className="text-xs text-red-500 text-medium">
+                {Form_Error_Message.price}
+              </p>
+            )}
+          </div>
+          <div className="space-y-2">
+            <TextField
+              key="expiration"
+              {...register("expiration", { required: true })}
+              type="date"
+              placeholder="Expiration date"
+              hasValue={!watchedFields["expiration"]}
+              label="Expiration"
+            />
+            {errors.expiration && (
+              <p className="text-xs text-red-500 text-medium">
+                {Form_Error_Message.expiration_date}
+              </p>
+            )}
+          </div>
+          <div className="w-fit fixed bottom-8 self-center mt-28">
             <Button
               variant="default"
               label={editingProduct ? "Save" : "Create"}

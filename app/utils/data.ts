@@ -1,6 +1,7 @@
 import { NotificationLog } from "@/app/types";
+import { Chart, ScannerIcon } from "@/public/icons";
 
-export const headers = ["Product", "Expiry date", "Price", "Weight"];
+export const headers = ["Product", "Expiry date", "Price"];
 
 export const navbarContent = [
   {
@@ -9,12 +10,14 @@ export const navbarContent = [
       {
         id: 1,
         name: "Dashboard",
-        value: "#",
+        path: "#",
+        icon: Chart,
       },
       {
         id: 2,
         name: "Camera Scanner",
-        value: "product-scanner",
+        path: "product-scanner",
+        icon: ScannerIcon,
       },
     ],
   },
@@ -24,10 +27,8 @@ export const navbarContent = [
       {
         id: 3,
         name: "List",
-        value: "product-list",
+        path: "product-list",
       },
-     
-      { id: 4, name: "Create", value: "#" },
     ],
   },
 ];
@@ -56,7 +57,8 @@ export const logs: NotificationLog[] = [
     date: "Jan 21",
     time: "14:03",
     status: "Success",
-  },{
+  },
+  {
     productId: "002390",
     date: "Jan 21",
     time: "14:03",
@@ -79,7 +81,8 @@ export const logs: NotificationLog[] = [
     date: "Jan 21",
     time: "14:03",
     status: "Success",
-  },{
+  },
+  {
     productId: "002390",
     date: "Jan 21",
     time: "14:03",
@@ -102,7 +105,8 @@ export const logs: NotificationLog[] = [
     date: "Jan 21",
     time: "14:03",
     status: "Success",
-  },{
+  },
+  {
     productId: "002390",
     date: "Jan 21",
     time: "14:03",
@@ -127,3 +131,9 @@ export const logs: NotificationLog[] = [
     status: "Success",
   },
 ];
+
+export const Form_Error_Message = {
+  name: "Please enter a correct product name.",
+  price: "Price should not be $ 0.00",
+  expiration_date: "Expiration date should be indicated properly.",
+} as const;

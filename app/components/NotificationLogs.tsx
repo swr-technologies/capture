@@ -8,7 +8,7 @@ type NotificationLogsProps = {
 
 export const NotificationLogs = ({ logs }: NotificationLogsProps) => {
   return (
-    <div className="mt-5 max-h-[420px] overflow-auto">
+    <div className="mt-5 h-[58vh] overflow-auto">
         {logs.map((log, index) => (
           <div key={index} className="flex items-center py-4 justify-between font-bold text-xs ">
             <p>{log.date}</p>

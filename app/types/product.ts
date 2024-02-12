@@ -3,15 +3,11 @@ export type Product = {
   name: string;
   price: string;
   expiration: string;
-  measurement: number;
-  measurementUnits: string;
 };
 
 export type FieldName =
   | "name"
   | "price"
-  | "measurement"
-  | "measurementUnits"
   | "expiration";
 
 export type NotificationLog = {

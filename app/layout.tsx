@@ -21,7 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={cn(publicSans, "indeterminate h-screen bg-white")}>
         <div className="mx-auto container pt-10">
-        <Navbar />
+          <Navbar />
         </div>
         {children}
       </body>

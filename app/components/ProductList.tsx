@@ -7,17 +7,21 @@ import { Product } from "@/app/types";
 import { useProduct } from "@/app/hooks/useProduct";
 
 export const ProductList = () => {
-  const { deleteProduct, products } = useProduct();
+  const {
+    deleteProduct,
+    products,
+    isCreateProductModalOpen,
+    setIsCreateProductModalOpen,
+  } = useProduct();
   const [editingProduct, setEditingProduct] = useState<Product | undefined>();
-  const [showCreate, setShowCreate] = useState(false);
 
   const handleOpenCreateNew = () => {
     setEditingProduct(undefined);
-    setShowCreate(true);
+    setIsCreateProductModalOpen(true);
   };
 
   const handleClose = () => {
-    setShowCreate(false);
+    setIsCreateProductModalOpen(false);
     setEditingProduct(undefined);
   };
   return (
@@ -37,11 +41,11 @@ export const ProductList = () => {
         onDelete={(id) => deleteProduct(id)}
         onEdit={(product) => {
           setEditingProduct(product);
-          setShowCreate(true);
+          setIsCreateProductModalOpen(true);
         }}
       />
-      {showCreate && (
-        <div className="fixed top-0 float-right right-0 h-screen w-full z-40 lg:max-w-[716px]">
+      {isCreateProductModalOpen && (
+        <div className="fixed top-0 float-right right-0 h-full w-full z-40 lg:max-w-[716px]">
           <div
             className="fixed top-0 left-0 w-screen h-full bg-black/50"
             onClick={handleClose}

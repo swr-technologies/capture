@@ -13,21 +13,6 @@ interface NavbarItemProps {
 }
 
 export const NavbarItem = ({ data }: NavbarItemProps) => {
-  const [selectedId, setSelectedId] = useState<number | null>(null);
-  const selectProduct = (id: number) => {
-    setSelectedId(selectedId === id ? null : id);
-  };
-
-  const getIconSrc = (itemName: string) => {
-    switch (itemName) {
-      case "Dashboard":
-        return Chart;
-      case "Camera Scanner":
-        return ScannerIcon;
-      default:
-        return null;
-    }
-  };
   return (
     <div className="w-72 bg-white h-full overflow-auto text-primary">
       <div className="flex-1 flex-col">
@@ -45,24 +30,19 @@ export const NavbarItem = ({ data }: NavbarItemProps) => {
                 )}
               >
                 {section.items.map((item: navbarItem) => {
-                  const isSelected = item.id === selectedId;
-                  const iconSrc = getIconSrc(item.name);
                   return (
-                    <Link key={item.id} href={item.value}>
+                    <Link key={item.id} href={item.path}>
                       <li
-                        onClick={() => selectProduct(item.id)}
                         className={cn(
-                          "flex items-center p-2 my-2 text-sm font-bold rounded cursor-pointer relative hover:bg-[#FFE7E7] hover:text-secondary",
-                          {
-                            "bg-[#FFE7E7] text-secondary": isSelected,
-                            "list-disc list-inside ":
-                              section.title === "Management",
-                          }
+                          "flex items-center p-2 my-2 text-sm font-bold rounded cursor-pointer relative hover:bg-[#FFE7E7] hover:text-secondary"
                         )}
                       >
-                        {iconSrc && (
+                        {!item.icon && (
+                          <span className="mr-2">•</span>
+                        )}
+                        {item.icon && (
                           <Image
-                            src={iconSrc}
+                            src={item.icon}
                             alt={item.name}
                             width={16}
                             height={16}

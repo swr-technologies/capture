@@ -23,13 +23,6 @@ export const ListItems = ({
   onEdit,
   onView,
 }: ListItemsProps) => {
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-  const selectProduct = (id: string) => {
-    setSelectedId((currentSelectedId) =>
-      currentSelectedId === id ? null : id
-    );
-  };
-
   const menuActions = (product: Product) => [
     {
       label: "View",
@@ -52,7 +45,7 @@ export const ListItems = ({
   ];
   return (
     <div className="rounded-t-2xl">
-      <table className="min-w-full bg-white text-primary  text-left font-bold text-sm">
+      <table className="min-w-full bg-white text-primary text-left font-bold text-sm">
         <thead>
           <tr className="bg-[#FFE8E8] h-16">
             {headers.map((header, index) => (
@@ -60,20 +53,16 @@ export const ListItems = ({
                 {header}
               </th>
             ))}
-            <th></th>
+            {products.length > 0 && <th></th>}
           </tr>
         </thead>
         <tbody>
           {products.map((product) => {
-            const isSelected = product.id === selectedId;
             const actions = menuActions(product);
             return (
               <tr
                 key={product.id}
-                className={cn(
-                  "border-b border-gray-200 h-20 cursor-pointer relative hover:bg-[#FFE8E8]/50"
-                )}
-                onClick={() => selectProduct(product.id)}
+                className="border-b border-gray-200 h-20 cursor-pointer relative hover:bg-[#FFE8E8]/50"
               >
                 <td className="border-b border-gray-200 px-4 py-2">
                   {product.name}
@@ -82,10 +71,7 @@ export const ListItems = ({
                   {product.expiration}
                 </td>
                 <td className="border-b border-gray-200 px-4 py-2">
-                  {product.price}
-                </td>
-                <td className="border-b border-gray-200 px-4 py-2">
-                  {product.measurement} {product.measurementUnits}
+                  ${product.price}
                 </td>
                 <td>
                   <div className="group">
@@ -97,7 +83,7 @@ export const ListItems = ({
                     >
                       <Image alt="menu" src={Menu} />
                     </button>
-                    <div className="absolute top-14 right-6 invisible group-hover:visible bg-white flex flex-col items-start px-3 h-auto rounded shadow py-4 font-medium text-base">
+                    <div className="absolute z-10 top-14 right-6 invisible group-hover:visible bg-white flex flex-col items-start px-3 h-auto rounded shadow py-4 font-medium text-base">
                       {actions.map(({ label, icon, alt, action }, index) => (
                         <div
                           key={index}
